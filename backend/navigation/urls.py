@@ -1,11 +1,23 @@
-from django.urls import path
-from .views import *
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import (
+    CategoryViewSet, BuildingViewSet, RoomViewSet, QRLocationViewSet,
+    RouteViewSet, UserProfileViewSet, SearchHistoryViewSet,
+    VisitedLocationViewSet, FeedbackViewSet, NoticeViewSet
+)
+
+router = DefaultRouter()
+router.register(r'categories', CategoryViewSet)
+router.register(r'buildings', BuildingViewSet)
+router.register(r'rooms', RoomViewSet)
+router.register(r'qrlocations', QRLocationViewSet)
+router.register(r'routes', RouteViewSet)
+router.register(r'user-profiles', UserProfileViewSet)
+router.register(r'search-history', SearchHistoryViewSet)
+router.register(r'visited-locations', VisitedLocationViewSet)
+router.register(r'feedbacks', FeedbackViewSet)
+router.register(r'notices', NoticeViewSet)
 
 urlpatterns = [
-    path('buildings/', BuildingListCreate.as_view(), name='building-list'),
-    path('rooms/', RoomListCreate.as_view(), name='room-list'),
-    path('qr-locations/', QRLocationListCreate.as_view(), name='qr-list'),
-    path('feedback/', FeedbackListCreate.as_view(), name='feedback-list'),
-    path('notices/', NoticeListCreate.as_view(), name='notice-list'),
-    # Add more as needed
+    path('', include(router.urls)),
 ]

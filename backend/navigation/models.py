@@ -1,120 +1,94 @@
 from django.db import models
 from django.contrib.auth.models import User
+from io import BytesIO
+from django.core.files import File
+import qrcode
 
-# Category of a room/location (e.g., Lab, Hall, Washroom)
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
-
-# Building on campus
 class Building(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    location_coordinates = models.CharField(max_length=255)  # e.g., "28.6139,77.2090"
+    name = models.CharField(max_length=200)
+    location = models.CharField(max_length=255)
+    latitude = models.FloatField(null=True, blank=True)   # For map marker
+    longitude = models.FloatField(null=True, blank=True)  # For map marker
 
     def __str__(self):
         return self.name
 
-
-# Room or place inside a building
 class Room(models.Model):
+    name = models.CharField(max_length=200)
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)  # e.g., "Room 101"
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    floor = models.IntegerField(default=0)
+    floor = models.IntegerField()
     description = models.TextField(blank=True)
-    location_coordinates = models.CharField(max_length=255)  # For precise location
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)   # Optional marker override
+    longitude = models.FloatField(null=True, blank=True)  # Optional marker override
 
     def __str__(self):
-        return f"{self.name} ({self.building.name})"
+        return f"{self.name} - {self.building.name}"
 
-
-# Images for rooms
-class RoomImage(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='room_images/')
-    caption = models.CharField(max_length=255, blank=True)
-
-    def __str__(self):
-        return f"Image of {self.room.name}"
-
-
-# Extend user model for role & favorites
-class UserProfile(models.Model):
-    ROLE_CHOICES = (
-        ('student', 'Student'),
-        ('staff', 'Staff'),
-        ('visitor', 'Visitor'),
-    )
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
-    favorite_rooms = models.ManyToManyField(Room, blank=True)
-
-    def __str__(self):
-        return self.user.username
-
-
-# QR code locations mapped to a room
 class QRLocation(models.Model):
-    qr_code_data = models.CharField(max_length=255, unique=True)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.OneToOneField(Room, on_delete=models.CASCADE)
+    code = models.CharField(max_length=255, unique=True)
+    qr_image = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
 
     def __str__(self):
         return f"QR for {self.room.name}"
 
+    def save(self, *args, **kwargs):
+        if not self.qr_image or 'update_fields' in kwargs:
+            qr = qrcode.make(self.code)
+            buffer = BytesIO()
+            qr.save(buffer, format='PNG')
+            self.qr_image.save(f"{self.room.name}_qr.png", File(buffer), save=False)
+        super().save(*args, **kwargs)
 
-# Route between two rooms (optional: for internal pathfinding)
 class Route(models.Model):
-    source = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='route_from')
-    destination = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='route_to')
-    path_description = models.TextField()  # Optional: instructions like "Take stairs, turn right..."
+    start_room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='route_start', null=True, blank=True)
+    end_room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='route_end', null=True, blank=True)
+    path_description = models.TextField()
 
     def __str__(self):
-        return f"{self.source.name} → {self.destination.name}"
+        return f"{self.start_room.name if self.start_room else 'Unknown'} to {self.end_room.name if self.end_room else 'Unknown'}"
 
+class UserProfile(models.Model):
+    ROLE_CHOICES = (
+        ('student', 'Student'),
+        ('admin', 'Admin'),
+        ('visitor', 'Visitor'),
+    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='student')
+    favorites = models.ManyToManyField(Room, blank=True)
 
-# Keep search history of users
+    def __str__(self):
+        return self.user.username
+
 class SearchHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    query = models.CharField(max_length=100)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.user.username} searched {self.query}"
-
-
-# Log of locations visited (if needed for tracking)
 class VisitedLocation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
     visited_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.user.username} visited {self.room.name}"
-
-
-# Feedback form for user suggestions or problems
 class Feedback(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
     message = models.TextField()
-    submitted_at = models.DateTimeField(auto_now_add=True)
-    resolved = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f"Feedback by {self.user.username if self.user else 'Anonymous'}"
-
-
-# Admin or management notices related to buildings
-class Notice(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    target_building = models.ForeignKey(Building, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    active_until = models.DateTimeField()
+
+class Notice(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
