@@ -1,4 +1,4 @@
-<h1>🏫 Campus Navigation System</h1>
+<h1>🏫 KALPATHON_Campus Navigation System</h1>
 
 <p><strong>Problem:</strong><br>
 Navigating large and unfamiliar campuses can be frustrating, especially for newcomers. Students, staff, and visitors often struggle to find specific halls, labs, buildings, or rooms, resulting in lost time and confusion.</p>
@@ -36,13 +36,13 @@ To simplify and streamline campus navigation using a web-based solution that off
 <h2>🚀 Getting Started</h2>
 
 <h3>1. Clone the Repository</h3>
-<pre><code>git clone https://github.com/your-username/campus-navigation.git
+<pre><code>git clone https://github.com/Himanshusingh2301/Navigation_app.git
 cd campus-navigation</code></pre>
 
 <h3>2. Backend Setup (Django)</h3>
 <pre><code>cd backend
 python -m venv env
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source env\Scripts\activate
 pip install -r requirements.txt
 
 # Set up environment variables (.env)
@@ -83,8 +83,8 @@ npm start</code></pre>
 <h2>🤝 Contributing</h2>
 <p>Pull requests and suggestions are welcome! Let’s make campus navigation easier together.</p>
 
-<h2>📧 Contact</h2>
-<p>Created by <strong>Himanshu Singh</strong> 
+<h2>Participants</h2>
+<p>Created by <strong>Himanshu Singh</strong>|
 <p>Created by <strong>Rahul kumar</strong> 
 <p>Created by <strong>Vibha Pandey</strong> 
 <p>Created by <strong>Prashant kumar</strong> 
