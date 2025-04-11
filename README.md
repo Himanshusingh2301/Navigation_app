@@ -84,7 +84,7 @@ npm start</code></pre>
 <p>Pull requests and suggestions are welcome! Let’s make campus navigation easier together.</p>
 
 <h2>Participants</h2>
-<p>Created by <strong>Himanshu Singh</strong>|
+<p>Created by <strong>Himanshu Singh</strong>
 <p>Created by <strong>Rahul kumar</strong> 
 <p>Created by <strong>Vibha Pandey</strong> 
 <p>Created by <strong>Prashant kumar</strong> 
