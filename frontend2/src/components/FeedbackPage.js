@@ -24,7 +24,7 @@ const FeedbackPage = () => {
       message: feedbackMessage,
     };
 
-    axios.post(`http://localhost:8000/api/feedbacks/`, feedbackData)
+    axios.post(`https://nav-app-back.onrender.com/api/feedbacks/`, feedbackData)
       .then(response => {
         setFeedbacks([response.data, ...feedbacks]);
         setFeedbackMessage(""); // Reset input field
@@ -36,7 +36,7 @@ const FeedbackPage = () => {
   useEffect(() => {
     // Fetch feedback for the specific room if roomId is set
     if (roomId) {
-      axios.get(`http://localhost:8000/api/feedbacks/?room=${roomId}`)
+      axios.get(`https://nav-app-back.onrender.com/api/feedbacks/?room=${roomId}`)
         .then(response => {
           setFeedbacks(response.data);
         })

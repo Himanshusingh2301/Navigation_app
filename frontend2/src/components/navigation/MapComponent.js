@@ -32,7 +32,7 @@ const MapComponent = () => {
 
   useEffect(() => {
     // Fetch buildings data
-    axios.get('http://localhost:8000/api/buildings/')
+    axios.get('https://nav-app-back.onrender.com/api/buildings/')
       .then(res => setBuildings(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -49,14 +49,14 @@ const MapComponent = () => {
           setScanning(false);
 
           try {
-            const res = await axios.get(`http://localhost:8000/api/qrlocations/?code=${decodedText}`);
+            const res = await axios.get(`https://nav-app-back.onrender.com/api/qrlocations/?code=${decodedText}`);
             const room = res.data[0].room;
             const { latitude, longitude } = room;
             setSelectedLocation([latitude, longitude]);
 
             if (startCoordinates) {
               // Fetch path if start is selected
-              const pathRes = await axios.get(`http://localhost:8000/api/shortest-path/?start_lat=${startCoordinates[0]}&start_lng=${startCoordinates[1]}&end_lat=${latitude}&end_lng=${longitude}`);
+              const pathRes = await axios.get(`https://nav-app-back.onrender.com/api/shortest-path/?start_lat=${startCoordinates[0]}&start_lng=${startCoordinates[1]}&end_lat=${latitude}&end_lng=${longitude}`);
               setPathCoords(pathRes.data.path_coordinates);
             }
           } catch (err) {
@@ -73,8 +73,8 @@ const MapComponent = () => {
 
   const handleSearch = async () => {
     try {
-      const roomRes = await axios.get(`http://localhost:8000/api/roomsearch/?query=${searchQuery}`);
-      const buildingRes = await axios.get(`http://localhost:8000/api/buildingsearch/?query=${searchQuery}`);
+      const roomRes = await axios.get(`https://nav-app-back.onrender.com/api/roomsearch/?query=${searchQuery}`);
+      const buildingRes = await axios.get(`https://nav-app-back.onrender.com/api/buildingsearch/?query=${searchQuery}`);
       const target = roomRes.data[0] || buildingRes.data[0];
       if (!target) return alert('Not found');
       const { latitude, longitude } = target;
@@ -87,8 +87,8 @@ const MapComponent = () => {
 
   const handleShortestPath = async () => {
     try {
-      const startRes = await axios.get(`http://localhost:8000/api/buildingsearch/?query=${startPoint}`);
-      const endRes = await axios.get(`http://localhost:8000/api/buildingsearch/?query=${endPoint}`);
+      const startRes = await axios.get(`https://nav-app-back.onrender.com/api/buildingsearch/?query=${startPoint}`);
+      const endRes = await axios.get(`https://nav-app-back.onrender.com/api/buildingsearch/?query=${endPoint}`);
 
       const startLoc = startRes.data[0];
       const endLoc = endRes.data[0];
@@ -102,7 +102,7 @@ const MapComponent = () => {
       setEndCoordinates([endLat, endLng]);
       setSelectedLocation([startLat, startLng]);
 
-      const pathRes = await axios.get(`http://localhost:8000/api/shortest-path/?start_lat=${startLat}&start_lng=${startLng}&end_lat=${endLat}&end_lng=${endLng}`);
+      const pathRes = await axios.get(`https://nav-app-back.onrender.com/api/shortest-path/?start_lat=${startLat}&start_lng=${startLng}&end_lat=${endLat}&end_lng=${endLng}`);
       setPathCoords(pathRes.data.path_coordinates);
     } catch (err) {
       console.error("Shortest path fetch failed", err);

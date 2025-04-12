@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   // LOGIN
   const login = async (username, password) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/token/', {
+      const response = await axios.post('https://nav-app-back.onrender.com/api/token/', {
         username,
         password,
       });
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
   // REGISTER
   const registerUser = async (username, password) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/register/', {
+      const response = await axios.post('https://nav-app-back.onrender.com/api/register/', {
         username,
         password,
       });

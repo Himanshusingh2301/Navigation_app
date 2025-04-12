@@ -15,7 +15,7 @@ const RoomDetails = () => {
     setError(null);
     setRoom(null);
 
-    axios.get(`http://localhost:8000/api/rooms/${roomId}/`)
+    axios.get(`https://nav-app-back.onrender.com/api/rooms/${roomId}/`)
       .then(response => {
         setRoom(response.data);
       })
