@@ -1,0 +1,103 @@
+/* Register.css */
+
+/* Container for the Register page */
+.register-container {
+    padding: 2rem;
+    max-width: 500px;
+    margin: 2rem auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    transform: scale(1);
+  }
+  
+  /* Title Styling */
+  .register-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    transition: transform 0.3s ease;
+  }
+  
+  .register-title:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Error message styling */
+  .error-message {
+    text-align: center;
+    color: #ff4d4d;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  /* Form styling */
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Container for input fields */
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Styling for each input field */
+  .input-field {
+    padding: 1rem;
+    border: 2px solid #e2e2e2;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .input-field:focus {
+    border-color: #4caf50;
+    outline: none;
+    transform: scale(1.05);
+  }
+  
+  /* Submit Button Styling */
+  .submit-button {
+    padding: 1rem;
+    background-color: #4caf50;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+  
+  /* Link to Login */
+  .login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  
+  .login-text {
+    color: #4caf50;
+    text-decoration: none;
+  }
+  
+  .login-text:hover {
+    color: #45a049;
+    text-decoration: underline;
+  }
+  
+  /* Adding subtle animations to the container */
+  .register-container:hover {
+    transform: scale(1.05);
+  }
+  

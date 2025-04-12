@@ -83,3 +83,5 @@ class FeedbackAdmin(admin.ModelAdmin):
 class NoticeAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'created_at')
     search_fields = ('title', 'content')
+
+

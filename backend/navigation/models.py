@@ -51,7 +51,7 @@ class Route(models.Model):
     start_room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='route_start', null=True, blank=True)
     end_room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='route_end', null=True, blank=True)
     path_description = models.TextField()
-
+    distance = models.FloatField(default=1.0) 
     def __str__(self):
         return f"{self.start_room.name if self.start_room else 'Unknown'} to {self.end_room.name if self.end_room else 'Unknown'}"
 

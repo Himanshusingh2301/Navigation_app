@@ -1,22 +1,18 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
+import dj_database_url
 
-# Load environment variables from .env file
-load_dotenv()
 
-# Base directory
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key in .env file
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'unsafe-secret')
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# DEBUG mode
-DEBUG = os.getenv("DEBUG", "True") == "True"
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-# Allowed hosts
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost 127.0.0.1").split()
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(' ')
 
 # Application definition
 INSTALLED_APPS = [
@@ -47,7 +43,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'campus_nav.urls'
+CORS_ALLOWED_ORIGINS = [
+    "https://nav-app-front.onrender.com",  # your frontend URL
+]
 
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -66,17 +67,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'campus_nav.wsgi.application'
 
-# PostgreSQL Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("DB_NAME", "campusdb"),
-        'USER': os.getenv("DB_USER", "postgres"),
-        'PASSWORD': os.getenv("DB_PASSWORD", ""),
-        'HOST': os.getenv("DB_HOST", "localhost"),
-        'PORT': os.getenv("DB_PORT", "5432"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+DATABASES['default']=dj_database_url.parse("postgresql://nav_data_rkrd_user:umagHq88Zarx2kPQKhuX6Orscd2xg8sw@dpg-cvsedvur433s73c5dlfg-a/nav_data_rkrd")
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

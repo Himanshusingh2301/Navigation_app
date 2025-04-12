@@ -96,3 +96,27 @@ class NoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
         fields = ['id', 'title', 'content', 'created_at']
+
+# ✅ For map path & navigation (minimal data)
+class BuildingMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Building
+        fields = ['id', 'name', 'latitude', 'longitude']
+
+class RoomMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = ['id', 'name', 'latitude', 'longitude']
+
+# ✅ For search results (building name included)
+class SearchRoomSerializer(serializers.ModelSerializer):
+    building = serializers.CharField(source='building.name')
+
+    class Meta:
+        model = Room
+        fields = ['id', 'name', 'building', 'latitude', 'longitude']
+        
+class SearchBuildingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Building
+        fields = ['id', 'name', 'location', 'latitude', 'longitude']

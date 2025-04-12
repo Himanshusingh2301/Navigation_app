@@ -1,0 +1,138 @@
+/* FeedbackPage.css */
+
+/* General container for the feedback page */
+.feedback-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  /* Title styling */
+  .feedback-title {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .feedback-title:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Room ID input section */
+  .room-id-container {
+    margin-bottom: 1.5rem;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+  
+  .input-field {
+    padding: 1rem;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .input-field:focus {
+    border-color: #4caf50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+  
+  /* Feedback form styling */
+  .feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .textarea-field {
+    padding: 1rem;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+  }
+  
+  .textarea-field:focus {
+    border-color: #4caf50;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+  
+  /* Submit Button */
+  .submit-button {
+    padding: 1rem;
+    background-color: #4caf50;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+  }
+  
+  .submit-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Feedback list styling */
+  .feedback-list {
+    margin-top: 2rem;
+  }
+  
+  .previous-feedback-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .feedback-ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .feedback-item {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .feedback-item:hover {
+    transform: scale(1.02);
+  }
+  
+  .feedback-item p {
+    margin: 0.5rem 0;
+  }
+  
+  /* Responsive Design */
+  .feedback-container {
+    padding: 1.5rem;
+  }
+
+  .input-field, .textarea-field {
+    font-size: 1rem;
+  }

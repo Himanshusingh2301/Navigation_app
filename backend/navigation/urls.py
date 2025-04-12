@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     CategoryViewSet, BuildingViewSet, RoomViewSet, QRLocationViewSet,
     RouteViewSet, UserProfileViewSet, SearchHistoryViewSet,
-    VisitedLocationViewSet, FeedbackViewSet, NoticeViewSet
+    VisitedLocationViewSet, FeedbackViewSet, NoticeViewSet,search_rooms, search_buildings,get_shortest_path_room,get_shortest_path_building
 )
 
 router = DefaultRouter()
@@ -20,4 +20,8 @@ router.register(r'notices', NoticeViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('roomsearch/', search_rooms, name='search-rooms'),
+    path('buildingsearch/', search_buildings, name='search-rooms'),
+    path('roomshortest-path/', get_shortest_path_room, name='shortest-path'),
+    path('buildingshortest-path/', get_shortest_path_building, name='shortest-path'),
 ]
